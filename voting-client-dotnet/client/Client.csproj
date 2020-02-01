@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../../protos/models.proto" GrpcServices="Client" />
+    <Protobuf Include="../../protos/poll-summary.proto" GrpcServices="Client" />
+    <Protobuf Include="../../protos/record-service.proto" GrpcServices="Client" />
+    <Protobuf Include="../../protos/users.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.11.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.26.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.26.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="RandomNameGeneratorLibrary" Version="1.2.2.0" />
+  </ItemGroup>
+</Project>

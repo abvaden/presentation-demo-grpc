@@ -1,0 +1,44 @@
+version: '3'
+services: 
+  redis: 
+    image: "redis:5.0.3-alpine"
+    expose: ["6379"]
+    ports: ["6379:6379"]
+  
+  user-server:
+    depends_on: ["redis"]
+    build:
+      context: .
+      dockerfile: ./user-server/Dockerfile
+    ports: ["50001:50000"]
+    expose: ["50000"]
+    environment: 
+      REDIS_HOST: "redis"
+
+  record-server:
+    depends_on: ["redis", "user-server"]
+    build: 
+      context: .
+      dockerfile: ./record-server/server/Dockerfile
+    ports: ["50002:50000"]
+    expose: ["50000"]
+    environment: 
+      REDIS_PORT: 6379
+      REDIS_HOST: "redis"
+      USERS_SERVICE_HOST: "user-server"
+      USERS_SERVICE_PORT: 50000
+
+  poll-summary-server:
+    depends_on: ["redis", "user-server", "record-server"]
+    build: 
+      context: .
+      dockerfile: ./poll-summary-server/server/Dockerfile
+    ports: ["50003:50000"]
+    expose: ["50000"]
+    environment: 
+      REDIS_PORT: 6379
+      REDIS_HOST: "redis"
+      USERS_SERVICE_HOST: "user-server"
+      USERS_SERVICE_PORT: 50000
+      RECORD_SERVICE_HOST: "record-server"
+      RECORD_SERVICE_PORT: 50000

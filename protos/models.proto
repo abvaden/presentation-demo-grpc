@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package voting.models;
+
+option go_package = "voting";
+
+message Vote {
+    string UserId = 1;
+    string UserCode = 2;
+    string PollId = 3;
+    string OptionId = 4;
+}
+
+enum PollType {
+    Single = 0;
+    Binary = 1;
+    Multiple = 2;
+}
+
+message Poll {
+    string Id = 1;
+    int32 Order = 2;
+    string Summary = 3;
+    repeated Option Options = 4;
+    PollType Type = 5;
+}
+
+message Option {
+    string Id = 1;
+    string Name = 2;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package voting.summary;
+import "models.proto";
+
+option go_package = "voting";
+
+message PollOptionSummary {
+    voting.models.Option Option = 1;
+    int32 VoteCounts = 2;
+    float Ratio = 3;
+    int32 Rank = 4;
+}
+
+message PollSummary {
+    voting.models.Poll Poll = 1;
+    int32 TotalVotes = 2;
+    repeated PollOptionSummary Options = 3;
+}
+
+message GetPollSummaryResponse {
+    bool Error = 1;
+    PollSummary Value = 2;
+}
+
+service PollSummaryService {
+    rpc GetPollSummary (voting.models.Poll) returns (GetPollSummaryResponse);
+    rpc StreamPollSummary (voting.models.Poll) returns (stream PollSummary);
+}
