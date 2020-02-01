@@ -16,7 +16,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: poll-summary-server/server/Dockerfile
-        context: /
         tags: ${{ github.sha }}
   buildUser:
     name: Build User
@@ -30,7 +29,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: user-server/Dockerfile
-        context: /
         tags: ${{ github.sha }}
   buildRecord:
     name: Build Record
@@ -44,5 +42,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: record-server/server/Dockerfile
-        context: /
         tags: ${{ github.sha }}
