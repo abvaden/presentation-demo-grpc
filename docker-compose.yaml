@@ -42,3 +42,10 @@ services:
       USERS_SERVICE_PORT: 50000
       RECORD_SERVICE_HOST: "record-server"
       RECORD_SERVICE_PORT: 50000
+
+  envoy:
+    image: envoyproxy/envoy:v1.9.1
+    volumes: 
+     - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    command: ["/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml", "-l", "trace", "--log-path", "/tmp/envoy_info.log"]
+    ports: [ "9999:9999", "8100:8100" ]
