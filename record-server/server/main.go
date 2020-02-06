@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
-	"net/http"
 	"os"
 	"time"
 
-	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"v2tools.com/presentations/demos/grpc/record-server/voting"
@@ -56,26 +54,6 @@ func main() {
 	grpcServer := grpc.NewServer(serverOpts)
 
 	grpcServeError := make(chan error)
-	go func() {
-		options := []grpcweb.Option{
-			grpcweb.WithCorsForRegisteredEndpointsOnly(false),
-			grpcweb.WithOriginFunc(func(origin string) bool { return true }),
-		}
-
-		wrappedGrpc := grpcweb.WrapServer(grpcServer, options...)
-		httpServer := http.Server{
-			Handler: http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
-				wrappedGrpc.ServeHTTP(resp, req)
-			}),
-		}
-		listener, err := net.Listen("tcp", ":50002")
-		if err != nil {
-			log.Fatalf("failed listening on %v  %v", ":50002", err)
-		}
-		if err = httpServer.Serve(listener); err != nil {
-			grpcServeError <- err
-		}
-	}()
 
 	go func() {
 
